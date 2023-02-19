@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 export default new DataSource({
   type: 'mysql',
   host: 'localhost',
-  port: 3306,
+  port: 3307,
   database: 'nest',
   username: 'test',
   password: 'password',
