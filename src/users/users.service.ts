@@ -17,12 +17,18 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.find().catch((err) => {
+      throw new InternalServerErrorException(`user find error. ${err}`);
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<User> {
+    return await this.userRepository
+      .findOne({ where: { id: id } })
+      .catch((err) => {
+        throw new InternalServerErrorException(`user find error. ${err}`);
+      });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
