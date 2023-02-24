@@ -37,14 +37,14 @@ describe('UsersService', () => {
         .spyOn(service, 'create')
         .mockImplementation(async (dto: CreateUserDto) => {
           const user: User = {
-            id: 1,
+            id: '1',
             ...dto,
           };
           return user;
         });
 
       expect(service.create(dto)).resolves.toEqual({
-        id: 1,
+        id: '1',
         ...dto,
       });
     });
