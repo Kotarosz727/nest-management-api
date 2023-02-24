@@ -14,5 +14,6 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @MaxLength(20)
+  // todo: 型を厳密にする
   phoneNumber: string;
 }
