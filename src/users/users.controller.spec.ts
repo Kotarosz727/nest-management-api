@@ -49,4 +49,28 @@ describe('UsersController', () => {
       ...dto,
     });
   });
+
+  it('should return all users', () => {
+    const dto: CreateUserDto = {
+      name: '太郎',
+      age: 20,
+      email: 'test@example.com',
+      phoneNumber: '09012345678',
+    };
+
+    jest.spyOn(service, 'findAll').mockImplementation(async () => {
+      const user: User = {
+        id: '1',
+        ...dto,
+      };
+      return [user];
+    });
+
+    expect(controller.findAll()).resolves.toEqual([
+      {
+        id: '1',
+        ...dto,
+      },
+    ]);
+  });
 });
