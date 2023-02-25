@@ -73,4 +73,37 @@ describe('UsersController', () => {
       },
     ]);
   });
+
+  it('should return a user', () => {
+    const dto: CreateUserDto = {
+      name: '太郎',
+      age: 20,
+      email: 'test@example.com',
+      phoneNumber: '09012345678',
+    };
+
+    jest.spyOn(service, 'findOne').mockImplementation(async () => {
+      const user: User = {
+        id: '1',
+        ...dto,
+      };
+      return user;
+    });
+
+    expect(controller.findOne('1')).resolves.toEqual({
+      id: '1',
+      ...dto,
+    });
+  });
+
+  it('should return 404 not found', () => {
+    jest
+      .spyOn(service, 'findOne')
+      .mockRejectedValue({ status: 404, message: 'Not Found' });
+
+    expect(controller.findOne('1')).rejects.toEqual({
+      status: 404,
+      message: 'Not Found',
+    });
+  });
 });

@@ -45,6 +45,7 @@ describe('UsersService', () => {
         ...dto,
       });
     });
+
     it('should return all users', () => {
       const dto: CreateUserDto = {
         name: '太郎',
@@ -67,6 +68,40 @@ describe('UsersService', () => {
           ...dto,
         },
       ]);
+    });
+
+    it('should return a user', () => {
+      const dto: CreateUserDto = {
+        name: '太郎',
+        age: 20,
+        email: 'test@example.com',
+        phoneNumber: '09012345678',
+      };
+
+      jest.spyOn(service, 'findOne').mockImplementation(async () => {
+        const user: User = {
+          id: '1',
+          ...dto,
+        };
+        return user;
+      });
+
+      expect(service.findOne('1')).resolves.toEqual({
+        id: '1',
+        ...dto,
+      });
+    });
+
+    it('should return 404 not found', () => {
+      jest.spyOn(service, 'findOne').mockRejectedValue({
+        statusCode: 404,
+        message: 'Not Found',
+      });
+
+      expect(service.findOne('1')).rejects.toEqual({
+        statusCode: 404,
+        message: 'Not Found',
+      });
     });
   });
 });
