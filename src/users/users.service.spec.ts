@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -26,7 +27,6 @@ describe('UsersService', () => {
       const dto: CreateUserDto = {
         name: '太郎',
         age: 20,
-        email: 'test@example.com',
         phoneNumber: '09012345678',
       };
 
@@ -50,7 +50,6 @@ describe('UsersService', () => {
       const dto: CreateUserDto = {
         name: '太郎',
         age: 20,
-        email: 'test@example.com',
         phoneNumber: '09012345678',
       };
 
@@ -74,7 +73,6 @@ describe('UsersService', () => {
       const dto: CreateUserDto = {
         name: '太郎',
         age: 20,
-        email: 'test@example.com',
         phoneNumber: '09012345678',
       };
 

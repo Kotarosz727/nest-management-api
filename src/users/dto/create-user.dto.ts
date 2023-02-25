@@ -9,10 +9,6 @@ export class CreateUserDto {
   age: number;
 
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
   @MaxLength(20)
   // todo: 型を厳密にする
   phoneNumber: string;

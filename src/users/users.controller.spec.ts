@@ -30,7 +30,6 @@ describe('UsersController', () => {
     const dto: CreateUserDto = {
       name: 'test',
       age: 20,
-      email: 'test@example.com',
       phoneNumber: '1234567890',
     };
 
@@ -54,7 +53,6 @@ describe('UsersController', () => {
     const dto: CreateUserDto = {
       name: '太郎',
       age: 20,
-      email: 'test@example.com',
       phoneNumber: '09012345678',
     };
 
@@ -78,7 +76,6 @@ describe('UsersController', () => {
     const dto: CreateUserDto = {
       name: '太郎',
       age: 20,
-      email: 'test@example.com',
       phoneNumber: '09012345678',
     };
 
