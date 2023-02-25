@@ -101,5 +101,23 @@ describe('UsersService', () => {
         message: 'Not Found',
       });
     });
+
+    it('should update user', async () => {
+      const dto: UpdateUserDto = {
+        name: '太郎',
+        age: 20,
+        phoneNumber: '09012345678',
+      };
+      const id = '1';
+
+      jest
+        .spyOn(service, 'update')
+        .mockReturnValue(Promise.resolve({ id, ...dto }));
+
+      await expect(service.update(id, dto)).resolves.toEqual({
+        id,
+        ...dto,
+      });
+    });
   });
 });

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -101,6 +102,24 @@ describe('UsersController', () => {
     expect(controller.findOne('1')).rejects.toEqual({
       status: 404,
       message: 'Not Found',
+    });
+  });
+
+  it('should update user', async () => {
+    const dto: UpdateUserDto = {
+      name: '太郎',
+      age: 20,
+      phoneNumber: '09012345678',
+    };
+    const id = '1';
+
+    jest
+      .spyOn(service, 'update')
+      .mockReturnValue(Promise.resolve({ id, ...dto }));
+
+    await expect(service.update(id, dto)).resolves.toEqual({
+      id,
+      ...dto,
     });
   });
 });
