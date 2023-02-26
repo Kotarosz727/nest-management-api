@@ -122,4 +122,19 @@ describe('UsersController', () => {
       ...dto,
     });
   });
+
+  it('should delete user', async () => {
+    const id = '1';
+    const dto: CreateUserDto = {
+      name: '太郎',
+      age: 20,
+      phoneNumber: '09012345678',
+    };
+
+    jest
+      .spyOn(service, 'remove')
+      .mockReturnValue(Promise.resolve({ id, ...dto }));
+
+    await expect(service.remove(id)).resolves.toEqual({ id, ...dto });
+  });
 });
