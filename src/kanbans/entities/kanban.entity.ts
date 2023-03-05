@@ -20,7 +20,7 @@ interface IKanban {
   name: string;
   description: string;
   status: KanbanStatusKey;
-  user: Pick<User, 'id'> | null;
+  user: User | null;
 }
 
 @Entity('kanbans')
