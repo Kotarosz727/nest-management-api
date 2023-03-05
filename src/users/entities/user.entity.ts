@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Kanban } from '../../kanbans/entities/kanban.entity';
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -12,6 +14,8 @@ export class User {
 
   @Column({ type: 'varchar', length: 255 })
   phoneNumber: string;
+  @OneToMany(() => Kanban, (kanban) => kanban.user)
+  kanbans: Kanban[];
 
   constructor(name: string, age: number, phoneNumber: string) {
     this.name = name;

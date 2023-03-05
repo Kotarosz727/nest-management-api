@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { Module } from '@nestjs/common';
+import { KanbansModule } from './kanbans/kanbans.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { Module } from '@nestjs/common';
       inject: [ConfigService],
     }),
     UsersModule,
+    KanbansModule,
   ],
   controllers: [AppController],
   providers: [AppService],
