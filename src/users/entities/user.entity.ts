@@ -15,7 +15,7 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   phoneNumber: string;
   @OneToMany(() => Kanban, (kanban) => kanban.user)
-  kanbans: Kanban[];
+  kanbans?: Kanban[];
 
   constructor(name: string, age: number, phoneNumber: string) {
     this.name = name;
