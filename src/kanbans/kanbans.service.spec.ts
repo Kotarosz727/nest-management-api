@@ -21,6 +21,9 @@ describe('KanbansService', () => {
         {
           useClass: Repository,
           provide: getRepositoryToken(Kanban),
+          useValue: {
+            find: jest.fn().mockResolvedValue(kanbans),
+          },
         },
       ],
     }).compile();
@@ -35,6 +38,7 @@ describe('KanbansService', () => {
     jest.spyOn(service, 'findAll').mockImplementation(async () => {
       return kanbans;
     });
-    expect(await service.findAll()).toEqual(kanbans);
+    const result = await service.findAll();
+    expect(result).toEqual(kanbans);
   });
 });
