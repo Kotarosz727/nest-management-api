@@ -1,21 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
-
-type KanbanStatus = {
-  0: 'todo';
-  1: 'doing';
-  2: 'done';
-};
-
-type KanbanStatusKey = keyof KanbanStatus;
-
-interface IKanban {
-  id: string;
-  name: string;
-  description: string;
-  status: KanbanStatusKey;
-  user: User | null;
-}
+import { IKanban, KanbanStatusKey } from '../type/kanbans_type';
 
 @Entity('kanbans')
 export class Kanban implements IKanban {
