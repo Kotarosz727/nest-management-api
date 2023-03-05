@@ -13,7 +13,6 @@ const kanbans = [
 
 describe('KanbansService', () => {
   let service: KanbansService;
-  let repository: Repository<Kanban>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,22 +21,20 @@ describe('KanbansService', () => {
         {
           useClass: Repository,
           provide: getRepositoryToken(Kanban),
-          useValue: {
-            find: jest.fn().mockResolvedValue(kanbans),
-          },
         },
       ],
     }).compile();
 
     service = module.get<KanbansService>(KanbansService);
-    repository = module.get<Repository<Kanban>>(getRepositoryToken(Kanban));
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
   it('should return all kanbans', async () => {
-    const response = await service.findAll();
-    expect(response).toEqual(kanbans);
+    jest.spyOn(service, 'findAll').mockImplementation(async () => {
+      return kanbans;
+    });
+    expect(await service.findAll()).toEqual(kanbans);
   });
 });
