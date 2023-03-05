@@ -22,8 +22,12 @@ export class KanbansService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} kanban`;
+  async findOne(id: string): Promise<Kanban> {
+    return this.kanbansRepository
+      .findOne({ where: { id: id } })
+      .catch((err) => {
+        throw new InternalServerErrorException(`kanban find error. ${err}`);
+      });
   }
 
   update(id: number, updateKanbanDto: UpdateKanbanDto) {
