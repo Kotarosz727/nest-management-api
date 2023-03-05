@@ -36,4 +36,16 @@ export class Kanban implements IKanban {
   @ManyToOne(() => User, (user) => user.kanbans, { nullable: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  constructor(
+    name: string,
+    description: string,
+    status: KanbanStatusKey,
+    user?: User,
+  ) {
+    this.name = name;
+    this.description = description;
+    this.status = status;
+    this.user = user;
+  }
 }
