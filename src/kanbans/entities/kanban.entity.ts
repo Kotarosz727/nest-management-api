@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
 type KanbanStatus = {
@@ -34,7 +28,6 @@ export class Kanban implements IKanban {
   @Column({ type: 'tinyint', default: 0 })
   status: KanbanStatusKey;
   @ManyToOne(() => User, (user) => user.kanbans, { nullable: true })
-  @JoinColumn({ name: 'user_id' })
   user: User;
 
   constructor(
