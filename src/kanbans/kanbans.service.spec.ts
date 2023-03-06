@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Kanban } from './entities/kanban.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
+import { CreateKanbanDto } from './dto/create-kanban.dto';
 
 const user = new User('太郎', 20, '09012345678');
 const kanbans = [
@@ -47,5 +48,18 @@ describe('KanbansService', () => {
     });
     const result = await service.findOne('find_one_test');
     expect(result).toEqual({ id: 'find_one_test', ...kanbans[0] });
+  });
+  it('should create kanban', async () => {
+    jest
+      .spyOn(service, 'create')
+      .mockImplementation(async (kanban: CreateKanbanDto) => {
+        return {
+          id: 'create_test',
+          ...kanban,
+        };
+      });
+    const kanbanDto = new CreateKanbanDto('タイトル', 0, user);
+    const kanban = await service.create(kanbanDto);
+    expect(kanban).toEqual(kanbanDto);
   });
 });
