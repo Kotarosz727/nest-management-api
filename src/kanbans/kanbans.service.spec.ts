@@ -65,6 +65,7 @@ describe('KanbansService', () => {
       name: 'タイトル',
       description: '説明',
       status: 0,
+      user: user,
     };
     const kanban = await service.create(dto);
     expect(kanban).toEqual({ id: 'create_test', ...dto });
