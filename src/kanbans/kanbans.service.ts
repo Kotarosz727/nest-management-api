@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateKanbanDto } from './dto/create-kanban.dto';
 import { UpdateKanbanDto } from './dto/update-kanban.dto';
 import { Kanban } from './entities/kanban.entity';
@@ -32,8 +36,13 @@ export class KanbansService {
       });
   }
 
-  update(id: number, updateKanbanDto: UpdateKanbanDto) {
-    return `This action updates a #${id} kanban`;
+  async update(id: string, updateKanbanDto: UpdateKanbanDto): Promise<Kanban> {
+    const kanban = await this.findOne(id);
+    if (!kanban) throw new NotFoundException(`kanban not found. id: ${id}`);
+    this.kanbansRepository.merge(kanban, updateKanbanDto);
+    return this.kanbansRepository.save(kanban).catch((err) => {
+      throw new InternalServerErrorException(`kanban update error. ${err}`);
+    });
   }
 
   remove(id: number) {

@@ -5,6 +5,7 @@ import { Kanban } from './entities/kanban.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { CreateKanbanDto } from './dto/create-kanban.dto';
+import { UpdateKanbanDto } from './dto/update-kanban.dto';
 
 const user = new User('太郎', 20, '09012345678');
 const kanbans = [
@@ -69,5 +70,23 @@ describe('KanbansService', () => {
     };
     const kanban = await service.create(dto);
     expect(kanban).toEqual({ id: 'create_test', ...dto });
+  });
+
+  it('should update kanban', async () => {
+    jest
+      .spyOn(service, 'update')
+      .mockImplementation(async (id: string, kanban: UpdateKanbanDto) => {
+        return {
+          id: id,
+          ...kanban,
+        } as Kanban;
+      });
+    const dto: UpdateKanbanDto = {
+      name: 'タイトル',
+      description: '説明',
+      status: 1,
+    };
+    const kanban = await service.update('update_test', dto);
+    expect(kanban).toEqual({ id: 'update_test', ...dto });
   });
 });
