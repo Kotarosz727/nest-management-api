@@ -32,6 +32,7 @@ describe('KanbansService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
   it('should return all kanbans', async () => {
     jest.spyOn(service, 'findAll').mockImplementation(async () => {
       return kanbans;
@@ -39,6 +40,7 @@ describe('KanbansService', () => {
     const result = await service.findAll();
     expect(result).toEqual(kanbans);
   });
+
   it('should return a kanban', async () => {
     jest.spyOn(service, 'findOne').mockImplementation(async (id: string) => {
       return {
@@ -49,6 +51,7 @@ describe('KanbansService', () => {
     const result = await service.findOne('find_one_test');
     expect(result).toEqual({ id: 'find_one_test', ...kanbans[0] });
   });
+
   it('should create kanban', async () => {
     jest
       .spyOn(service, 'create')
