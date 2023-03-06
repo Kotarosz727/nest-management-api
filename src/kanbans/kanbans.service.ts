@@ -12,8 +12,10 @@ export class KanbansService {
     private readonly kanbansRepository: Repository<Kanban>,
   ) {}
 
-  create(createKanbanDto: CreateKanbanDto) {
-    return 'This action adds a new kanban';
+  async create(createKanbanDto: CreateKanbanDto): Promise<Kanban> {
+    return await this.kanbansRepository.save(createKanbanDto).catch((err) => {
+      throw new InternalServerErrorException(`kanban create error. ${err}`);
+    });
   }
 
   async findAll(): Promise<Kanban[]> {

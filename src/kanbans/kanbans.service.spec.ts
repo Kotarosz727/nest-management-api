@@ -56,10 +56,14 @@ describe('KanbansService', () => {
         return {
           id: 'create_test',
           ...kanban,
-        };
+        } as Kanban;
       });
-    const kanbanDto = new CreateKanbanDto('タイトル', 0, user);
-    const kanban = await service.create(kanbanDto);
-    expect(kanban).toEqual(kanbanDto);
+    const dto: CreateKanbanDto = {
+      name: 'タイトル',
+      description: '説明',
+      status: 0,
+    };
+    const kanban = await service.create(dto);
+    expect(kanban).toEqual({ id: 'create_test', ...dto });
   });
 });
