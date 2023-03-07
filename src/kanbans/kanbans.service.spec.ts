@@ -89,4 +89,12 @@ describe('KanbansService', () => {
     const kanban = await service.update('update_test', dto);
     expect(kanban).toEqual({ id: 'update_test', ...dto });
   });
+
+  it('should delete kanban', async () => {
+    jest.spyOn(service, 'remove').mockImplementation(async () => {
+      return { deleted: true };
+    });
+    const kanban = await service.remove('remove_test');
+    expect(kanban).toEqual({ deleted: true });
+  });
 });

@@ -45,7 +45,12 @@ export class KanbansService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} kanban`;
+  async remove(id: string): Promise<{ deleted: boolean; message?: string }> {
+    try {
+      await this.kanbansRepository.delete(id);
+      return { deleted: true };
+    } catch (err) {
+      return { deleted: false, message: err.message };
+    }
   }
 }
