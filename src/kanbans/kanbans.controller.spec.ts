@@ -10,8 +10,8 @@ describe('KanbansController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [KanbansController],
       providers: [
-        KanbansController,
         KanbansService,
         {
           useClass: Repository,
@@ -25,5 +25,17 @@ describe('KanbansController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  it('should return all kanbans', async () => {
+    const kanbans = [
+      new Kanban('1', 'タイトル1', 0),
+      new Kanban('2', 'タイトル2', 1),
+    ];
+    jest.spyOn(controller, 'findAll').mockImplementation(async () => {
+      return kanbans;
+    });
+    const result = await controller.findAll();
+    expect(result).toEqual(kanbans);
   });
 });
