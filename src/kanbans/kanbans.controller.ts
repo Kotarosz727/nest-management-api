@@ -27,16 +27,16 @@ export class KanbansController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.kanbansService.findOne(+id);
+    return this.kanbansService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateKanbanDto: UpdateKanbanDto) {
-    return this.kanbansService.update(+id, updateKanbanDto);
+    return this.kanbansService.update(id, updateKanbanDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.kanbansService.remove(+id);
+    return this.kanbansService.remove(id);
   }
 }
