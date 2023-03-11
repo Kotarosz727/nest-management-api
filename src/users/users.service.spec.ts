@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthService } from '../auth/auth.service';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -13,6 +14,7 @@ describe('UsersService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
+        AuthService,
         {
           useClass: Repository,
           provide: getRepositoryToken(User),
