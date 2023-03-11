@@ -8,6 +8,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 describe('UsersService', () => {
   let service: UsersService;
+  const password = 'password';
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -28,6 +29,7 @@ describe('UsersService', () => {
         name: '太郎',
         age: 20,
         phoneNumber: '09012345678',
+        password,
       };
 
       jest
@@ -51,6 +53,7 @@ describe('UsersService', () => {
         name: '太郎',
         age: 20,
         phoneNumber: '09012345678',
+        password,
       };
 
       jest.spyOn(service, 'findAll').mockImplementation(async () => {
@@ -74,6 +77,7 @@ describe('UsersService', () => {
         name: '太郎',
         age: 20,
         phoneNumber: '09012345678',
+        password,
       };
 
       jest.spyOn(service, 'findOne').mockImplementation(async () => {
@@ -107,6 +111,7 @@ describe('UsersService', () => {
         name: '太郎',
         age: 20,
         phoneNumber: '09012345678',
+        password,
       };
       const id = '1';
 
@@ -126,6 +131,7 @@ describe('UsersService', () => {
         name: '太郎',
         age: 20,
         phoneNumber: '09012345678',
+        password,
       };
 
       jest
