@@ -111,7 +111,6 @@ describe('UsersService', () => {
         name: '太郎',
         age: 20,
         phoneNumber: '09012345678',
-        password,
       };
       const id = '1';
 

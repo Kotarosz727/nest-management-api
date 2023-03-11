@@ -35,7 +35,10 @@ export class UsersService {
       });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<Partial<User>> {
     const user = await this.findOne(id);
     if (!user) throw new NotFoundException(`user not found. id: ${id}`);
     this.userRepository.merge(user, updateUserDto);
