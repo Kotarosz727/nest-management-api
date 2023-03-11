@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Kanban } from '../../kanbans/entities/kanban.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class User {
@@ -14,6 +15,11 @@ export class User {
 
   @Column({ type: 'varchar', length: 255 })
   phoneNumber: string;
+
+  @Exclude()
+  @Column({ type: 'varchar', length: 255 })
+  password: string;
+
   @OneToMany(() => Kanban, (kanban) => kanban.user)
   kanbans?: Kanban[];
 
