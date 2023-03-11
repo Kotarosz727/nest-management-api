@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { Module } from '@nestjs/common';
 import { KanbansModule } from './kanbans/kanbans.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { KanbansModule } from './kanbans/kanbans.module';
     }),
     UsersModule,
     KanbansModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
