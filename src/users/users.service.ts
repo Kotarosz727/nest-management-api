@@ -8,19 +8,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private readonly authService: AuthService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    createUserDto.password = await this.authService.hashPassword(
-      createUserDto.password,
-    );
     return await this.userRepository.save(createUserDto).catch((err) => {
       throw new InternalServerErrorException(`user create error. ${err}`);
     });
