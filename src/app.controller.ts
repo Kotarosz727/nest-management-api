@@ -18,7 +18,7 @@ export class AppController {
   @Post('auth/signIn')
   async signIn(@Body() createUserDto: CreateUserDto) {
     try {
-      await this.authService.signIn(createUserDto);
+      await this.authService.registration(createUserDto);
       return { message: 'success signIn' };
     } catch (error) {
       console.log(error);

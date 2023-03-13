@@ -10,12 +10,24 @@ export class AuthService {
     private readonly authProvider: AuthProvider,
   ) {}
 
-  async signIn(users: CreateUserDto) {
+  async registration(users: CreateUserDto) {
     const password = await this.authProvider.hashPassword(users.password);
     return await this.usersService
       .create({ ...users, password })
       .catch((err) => {
         throw new InternalServerErrorException(`user create error. ${err}`);
       });
+  }
+
+  async validateUser(name: string, password: string): Promise<any> {
+    const user = await this.usersService.findOne(name);
+    if (
+      user &&
+      (await this.authProvider.comparePassword(password, user.password))
+    ) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
   }
 }
