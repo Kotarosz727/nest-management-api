@@ -5,16 +5,14 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthService } from '../auth/auth.service';
 
 describe('UsersService', () => {
   let service: UsersService;
-  const password = 'password';
+  const user = new User('test', 20, '09012345678');
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
-        AuthService,
         {
           useClass: Repository,
           provide: getRepositoryToken(User),
@@ -31,7 +29,7 @@ describe('UsersService', () => {
         name: '太郎',
         age: 20,
         phoneNumber: '09012345678',
-        password,
+        password: 'password',
       };
 
       jest
@@ -51,48 +49,24 @@ describe('UsersService', () => {
     });
 
     it('should return all users', () => {
-      const dto: CreateUserDto = {
-        name: '太郎',
-        age: 20,
-        phoneNumber: '09012345678',
-        password,
-      };
-
       jest.spyOn(service, 'findAll').mockImplementation(async () => {
-        const user: User = {
-          id: '1',
-          ...dto,
-        };
         return [user];
       });
 
       expect(service.findAll()).resolves.toEqual([
         {
-          id: '1',
-          ...dto,
+          ...user,
         },
       ]);
     });
 
     it('should return a user', () => {
-      const dto: CreateUserDto = {
-        name: '太郎',
-        age: 20,
-        phoneNumber: '09012345678',
-        password,
-      };
-
       jest.spyOn(service, 'findOne').mockImplementation(async () => {
-        const user: User = {
-          id: '1',
-          ...dto,
-        };
         return user;
       });
 
       expect(service.findOne('1')).resolves.toEqual({
-        id: '1',
-        ...dto,
+        ...user,
       });
     });
 
@@ -128,18 +102,12 @@ describe('UsersService', () => {
 
     it('should delete user', async () => {
       const id = '1';
-      const dto: CreateUserDto = {
-        name: '太郎',
-        age: 20,
-        phoneNumber: '09012345678',
-        password,
-      };
 
       jest
         .spyOn(service, 'remove')
-        .mockReturnValue(Promise.resolve({ id, ...dto }));
+        .mockReturnValue(Promise.resolve({ id, ...user }));
 
-      await expect(service.remove(id)).resolves.toEqual({ id, ...dto });
+      await expect(service.remove(id)).resolves.toEqual({ id, ...user });
     });
   });
 });

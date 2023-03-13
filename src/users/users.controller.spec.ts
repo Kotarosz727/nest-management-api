@@ -6,7 +6,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthService } from '../auth/auth.service';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -18,7 +17,6 @@ describe('UsersController', () => {
       controllers: [UsersController],
       providers: [
         UsersService,
-        AuthService,
         {
           provide: getRepositoryToken(User),
           useClass: Repository,
