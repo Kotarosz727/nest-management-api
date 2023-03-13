@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { AuthProvider } from './providers/auth.provider';
 import { CreateUserDto } from '../users/dto/create-user.dto';
@@ -10,8 +10,12 @@ export class AuthService {
     private readonly authProvider: AuthProvider,
   ) {}
 
-  async registration(users: CreateUserDto) {
+  async signIn(users: CreateUserDto) {
     const password = await this.authProvider.hashPassword(users.password);
-    return await this.usersService.create({ ...users, password });
+    return await this.usersService
+      .create({ ...users, password })
+      .catch((err) => {
+        throw new InternalServerErrorException(`user create error. ${err}`);
+      });
   }
 }
