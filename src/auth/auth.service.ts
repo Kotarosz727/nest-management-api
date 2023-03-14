@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { AuthProvider } from './providers/auth.provider';
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -20,13 +21,13 @@ export class AuthService {
   }
 
   async validateUser(name: string, password: string): Promise<any> {
-    const user = await this.usersService.findOne(name);
+    const user = await this.usersService.findOneByName(name);
+
     if (
       user &&
       (await this.authProvider.comparePassword(password, user.password))
     ) {
-      const { password, ...result } = user;
-      return result;
+      return user;
     }
     return null;
   }
