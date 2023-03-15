@@ -51,7 +51,7 @@ describe('AuthService', () => {
       );
 
     jest
-      .spyOn(usersService, 'findOne')
+      .spyOn(usersService, 'findOneByName')
       .mockImplementation(async (name: string) => {
         return name === mockUser.name ? mockUser : null;
       });
@@ -59,6 +59,6 @@ describe('AuthService', () => {
     const user = await authService.validateUser(mockUser.name, 'testpassword');
 
     expect(user).toEqual(mockUser);
-    expect(usersService.findOne).toHaveBeenCalledWith(mockUser.name);
+    expect(usersService.findOneByName).toHaveBeenCalledWith(mockUser.name);
   });
 });
