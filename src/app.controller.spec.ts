@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { CreateUserDto } from './users/dto/create-user.dto';
+import { JwtService } from '@nestjs/jwt';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -20,6 +21,7 @@ describe('AppController', () => {
         AppService,
         AuthService,
         UsersService,
+        JwtService,
         { useClass: Repository, provide: getRepositoryToken(User) },
         AuthProvider,
       ],

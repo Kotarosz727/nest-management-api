@@ -5,6 +5,7 @@ import { AuthProvider } from './providers/auth.provider';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -16,6 +17,7 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         UsersService,
+        JwtService,
         {
           useClass: Repository,
           provide: getRepositoryToken(User),
@@ -34,11 +36,9 @@ describe('AuthService', () => {
   });
 
   it('returns user when given correct name and password', async () => {
-    const mockUser: User = {
+    const mockUser: Pick<User, 'id' | 'name' | 'password'> = {
       id: '1',
       name: 'testuser',
-      age: 20,
-      phoneNumber: '09012345678',
       password: '$2b$10$wH4OJ4v4D4/4Xs9sEJnuzukKkkC1W8M1LdCQ2h2v/iKjSYW8a9X9C',
     };
 
@@ -51,7 +51,7 @@ describe('AuthService', () => {
       );
 
     jest
-      .spyOn(usersService, 'findOneByName')
+      .spyOn(usersService, 'findByNameWithPassword')
       .mockImplementation(async (name: string) => {
         return name === mockUser.name ? mockUser : null;
       });
@@ -59,6 +59,8 @@ describe('AuthService', () => {
     const user = await authService.validateUser(mockUser.name, 'testpassword');
 
     expect(user).toEqual(mockUser);
-    expect(usersService.findOneByName).toHaveBeenCalledWith(mockUser.name);
+    expect(usersService.findByNameWithPassword).toHaveBeenCalledWith(
+      mockUser.name,
+    );
   });
 });

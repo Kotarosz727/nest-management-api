@@ -43,7 +43,9 @@ export class UsersService {
       });
   }
 
-  async findByNameWithPassword(name: string): Promise<User> {
+  async findByNameWithPassword(
+    name: string,
+  ): Promise<Pick<User, 'id' | 'name' | 'password'>> {
     return await this.userRepository
       .findOne({ where: { name: name }, select: ['id', 'name', 'password'] })
       .catch((err) => {
