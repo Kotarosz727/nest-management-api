@@ -7,6 +7,9 @@ import { AppController } from './app.controller';
 import { Module } from '@nestjs/common';
 import { KanbansModule } from './kanbans/kanbans.module';
 import { AuthModule } from './auth/auth.module';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [
