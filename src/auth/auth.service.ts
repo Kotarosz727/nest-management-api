@@ -2,12 +2,14 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { AuthProvider } from './providers/auth.provider';
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly authProvider: AuthProvider,
+    private readonly jwtService: JwtService,
   ) {}
 
   async registration(users: CreateUserDto) {
@@ -29,5 +31,12 @@ export class AuthService {
       return user;
     }
     return null;
+  }
+
+  async login(user: any) {
+    const payload = { name: user.name, sub: user.id };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
