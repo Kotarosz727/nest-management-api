@@ -24,7 +24,7 @@ export class AppController {
   }
 
   @Post('auth/signup')
-  async signIn(@Body() createUserDto: CreateUserDto) {
+  async signUp(@Body() createUserDto: CreateUserDto) {
     try {
       await this.authService.registration(createUserDto);
       return { message: 'success signup' };
