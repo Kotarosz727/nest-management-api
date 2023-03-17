@@ -10,6 +10,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 describe('UsersController', () => {
   let controller: UsersController;
   let service: UsersService;
+  const password = 'password';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,6 +33,7 @@ describe('UsersController', () => {
       name: 'test',
       age: 20,
       phoneNumber: '1234567890',
+      password,
     };
 
     jest
@@ -55,6 +57,7 @@ describe('UsersController', () => {
       name: '太郎',
       age: 20,
       phoneNumber: '09012345678',
+      password,
     };
 
     jest.spyOn(service, 'findAll').mockImplementation(async () => {
@@ -78,6 +81,7 @@ describe('UsersController', () => {
       name: '太郎',
       age: 20,
       phoneNumber: '09012345678',
+      password,
     };
 
     jest.spyOn(service, 'findOne').mockImplementation(async () => {
@@ -129,6 +133,7 @@ describe('UsersController', () => {
       name: '太郎',
       age: 20,
       phoneNumber: '09012345678',
+      password,
     };
 
     jest

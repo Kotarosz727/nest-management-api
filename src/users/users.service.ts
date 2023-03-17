@@ -35,7 +35,28 @@ export class UsersService {
       });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async findOneByName(name: string): Promise<User> {
+    return await this.userRepository
+      .findOne({ where: { name: name } })
+      .catch((err) => {
+        throw new InternalServerErrorException(`user find error. ${err}`);
+      });
+  }
+
+  async findByNameWithPassword(
+    name: string,
+  ): Promise<Pick<User, 'id' | 'name' | 'password'>> {
+    return await this.userRepository
+      .findOne({ where: { name: name }, select: ['id', 'name', 'password'] })
+      .catch((err) => {
+        throw new InternalServerErrorException(`user find error. ${err}`);
+      });
+  }
+
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<Partial<User>> {
     const user = await this.findOne(id);
     if (!user) throw new NotFoundException(`user not found. id: ${id}`);
     this.userRepository.merge(user, updateUserDto);
