@@ -8,6 +8,7 @@ import { UpdateKanbanDto } from './dto/update-kanban.dto';
 import { Kanban } from './entities/kanban.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class KanbansService {
@@ -16,16 +17,27 @@ export class KanbansService {
     private readonly kanbansRepository: Repository<Kanban>,
   ) {}
 
-  async create(createKanbanDto: CreateKanbanDto): Promise<Kanban> {
+  async create(
+    createKanbanDto: CreateKanbanDto,
+    userId: string,
+  ): Promise<Kanban> {
+    createKanbanDto.userId = userId;
+    console.log(createKanbanDto);
     return await this.kanbansRepository.save(createKanbanDto).catch((err) => {
       throw new InternalServerErrorException(`kanban create error. ${err}`);
     });
   }
 
-  async findAll(): Promise<Kanban[]> {
-    return await this.kanbansRepository.find().catch((err) => {
-      throw new InternalServerErrorException(`kanbans find error. ${err}`);
-    });
+  async findAll(userId: string): Promise<Kanban[]> {
+    return await this.kanbansRepository
+      .find({
+        where: {
+          userId: userId,
+        },
+      })
+      .catch((err) => {
+        throw new InternalServerErrorException(`kanbans find error. ${err}`);
+      });
   }
 
   async findOne(id: string): Promise<Kanban> {

@@ -11,4 +11,5 @@ export class CreateKanbanDto {
   description: string;
   status: KanbanStatusKey;
   user?: User;
+  userId?: string;
 }

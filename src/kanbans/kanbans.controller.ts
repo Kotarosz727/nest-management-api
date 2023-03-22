@@ -6,23 +6,30 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { KanbansService } from './kanbans.service';
 import { CreateKanbanDto } from './dto/create-kanban.dto';
 import { UpdateKanbanDto } from './dto/update-kanban.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('kanbans')
 export class KanbansController {
   constructor(private readonly kanbansService: KanbansService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createKanbanDto: CreateKanbanDto) {
-    return this.kanbansService.create(createKanbanDto);
+  create(@Request() req, @Body() createKanbanDto: CreateKanbanDto) {
+    const { userId } = req.user;
+    return this.kanbansService.create(createKanbanDto, userId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.kanbansService.findAll();
+  findAll(@Request() req) {
+    const { userId } = req.user;
+    return this.kanbansService.findAll(userId);
   }
 
   @Get(':id')
