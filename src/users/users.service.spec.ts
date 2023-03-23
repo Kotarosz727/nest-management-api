@@ -8,7 +8,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 describe('UsersService', () => {
   let service: UsersService;
-  const user = new User('test', 20, '09012345678');
+  const user = {
+    id: '1',
+    name: '太郎',
+    age: 20,
+    phoneNumber: '09012345678',
+    password: 'password',
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

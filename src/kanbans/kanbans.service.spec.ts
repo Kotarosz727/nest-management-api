@@ -3,14 +3,18 @@ import { KanbansService } from './kanbans.service';
 import { Repository } from 'typeorm';
 import { Kanban } from './entities/kanban.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from '../users/entities/user.entity';
 import { CreateKanbanDto } from './dto/create-kanban.dto';
 import { UpdateKanbanDto } from './dto/update-kanban.dto';
 
-const user = new User('太郎', 20, '09012345678');
+const userId = 'user_1';
 const kanbans = [
-  new Kanban('1', 'タイトル1', 0, user),
-  new Kanban('2', 'タイトル2', 1, user),
+  {
+    id: '1',
+    name: 'test1',
+    description: 'test1',
+    status: 0,
+    userId: userId,
+  },
 ];
 
 describe('KanbansService', () => {
@@ -36,9 +40,9 @@ describe('KanbansService', () => {
 
   it('should return all kanbans', async () => {
     jest.spyOn(service, 'findAll').mockImplementation(async () => {
-      return kanbans;
+      return kanbans as Kanban[];
     });
-    const result = await service.findAll();
+    const result = await service.findAll(userId);
     expect(result).toEqual(kanbans);
   });
 
@@ -47,7 +51,7 @@ describe('KanbansService', () => {
       return {
         id: id,
         ...kanbans[0],
-      };
+      } as Kanban;
     });
     const result = await service.findOne('find_one_test');
     expect(result).toEqual({ id: 'find_one_test', ...kanbans[0] });
@@ -62,13 +66,13 @@ describe('KanbansService', () => {
           ...kanban,
         } as Kanban;
       });
+
     const dto: CreateKanbanDto = {
       name: 'タイトル',
       description: '説明',
       status: 0,
-      user: user,
     };
-    const kanban = await service.create(dto);
+    const kanban = await service.create(dto, userId);
     expect(kanban).toEqual({ id: 'create_test', ...dto });
   });
 

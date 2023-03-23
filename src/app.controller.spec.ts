@@ -56,8 +56,8 @@ describe('AppController', () => {
       return user;
     });
 
-    const result = await appController.signIn(createUserDto);
+    const result = await appController.signUp(createUserDto);
 
-    expect(result).toEqual({ message: 'success signIn' });
+    expect(result).toEqual({ message: 'success signup' });
   });
 });

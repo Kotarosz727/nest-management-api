@@ -23,11 +23,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('auth/signIn')
-  async signIn(@Body() createUserDto: CreateUserDto) {
+  @Post('auth/signup')
+  async signUp(@Body() createUserDto: CreateUserDto) {
     try {
       await this.authService.registration(createUserDto);
-      return { message: 'success signIn' };
+      return { message: 'success signup' };
     } catch (error) {
       console.log(error);
     }

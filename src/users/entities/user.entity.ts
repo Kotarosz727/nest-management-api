@@ -20,10 +20,4 @@ export class User {
 
   @OneToMany(() => Kanban, (kanban) => kanban.user)
   kanbans?: Kanban[];
-
-  constructor(name: string, age: number, phoneNumber: string) {
-    this.name = name;
-    this.age = age;
-    this.phoneNumber = phoneNumber;
-  }
 }

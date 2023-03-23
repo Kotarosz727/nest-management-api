@@ -4,8 +4,17 @@ import { KanbansService } from './kanbans.service';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Kanban } from './entities/kanban.entity';
+import { CreateKanbanDto } from './dto/create-kanban.dto';
 
 describe('KanbansController', () => {
+  const userID = '1';
+  const kanban = {
+    id: '1',
+    name: 'タイトル1',
+    description: '説明1',
+    status: 0,
+    userId: userID,
+  };
   let controller: KanbansController;
 
   beforeEach(async () => {
@@ -28,45 +37,37 @@ describe('KanbansController', () => {
   });
 
   it('should return all kanbans', async () => {
-    const kanbans = [
-      new Kanban('1', 'タイトル1', 0),
-      new Kanban('2', 'タイトル2', 1),
-    ];
+    const kanbans = [kanban];
     jest.spyOn(controller, 'findAll').mockImplementation(async () => {
-      return kanbans;
+      return kanbans as Kanban[];
     });
-    const result = await controller.findAll();
+    const result = await controller.findAll(userID);
     expect(result).toEqual(kanbans);
   });
 
   it('should return a kanban', async () => {
-    const kanban = new Kanban('1', 'タイトル1', 0);
     jest.spyOn(controller, 'findOne').mockImplementation(async (id: string) => {
       return {
         id: id,
         ...kanban,
-      };
+      } as Kanban;
     });
     const result = await controller.findOne('find_one_test');
     expect(result).toEqual({ id: 'find_one_test', ...kanban });
   });
 
   it('should create kanban', async () => {
-    const kanban = new Kanban('1', 'タイトル1', 0);
-    jest
-      .spyOn(controller, 'create')
-      .mockImplementation(async (kanban: Kanban) => {
-        return {
-          id: 'create_test',
-          ...kanban,
-        };
-      });
-    const result = await controller.create(kanban);
+    jest.spyOn(controller, 'create').mockImplementation(async () => {
+      return {
+        id: 'create_test',
+        ...kanban,
+      } as Kanban;
+    });
+    const result = await controller.create(userID, kanban as CreateKanbanDto);
     expect(result).toEqual({ id: 'create_test', ...kanban });
   });
 
   it('should update kanban', async () => {
-    const kanban = new Kanban('1', 'タイトル1', 0);
     jest
       .spyOn(controller, 'update')
       .mockImplementation(async (id: string, kanban: Kanban) => {
@@ -75,7 +76,7 @@ describe('KanbansController', () => {
           ...kanban,
         };
       });
-    const result = await controller.update('update_test', kanban);
+    const result = await controller.update('update_test', kanban as Kanban);
     expect(result).toEqual({ id: 'update_test', ...kanban });
   });
 
