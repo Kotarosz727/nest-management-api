@@ -36,4 +36,7 @@ export class Kanban implements IKanban {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   public updated_at: Date;
+
+  @Column({ type: 'tinyint', default: 0 })
+  prioritize: number;
 }
