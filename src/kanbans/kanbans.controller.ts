@@ -31,17 +31,19 @@ export class KanbansController {
     const { userId } = req.user;
     return this.kanbansService.findAll(userId);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.kanbansService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateKanbanDto: UpdateKanbanDto) {
     return this.kanbansService.update(id, updateKanbanDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.kanbansService.remove(id);
